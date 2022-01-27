@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: camunda-ui-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "operate.127.0.0.1.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: operate-zeebe-operate-helm
+            port:
+              number: 80
+  - host: "tasklist.127.0.0.1.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: tasklist-zeebe-tasklist-helm
+            port:
+              number: 80

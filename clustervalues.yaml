@@ -1,0 +1,53 @@
+global:
+  zeebe: "{{ .Release.Name }}-zeebe"
+
+image:
+  repository: camunda/zeebe
+  tag: 1.3.1
+  pullPolicy: IfNotPresent  
+
+tasklist:
+  enabled: true
+
+# Zeebe configuration
+# for available values see `helm show values zeebe/zeebe-cluster-helm`
+# or https://github.com/camunda-community-hub/camunda-cloud-helm/tree/main/charts/zeebe-cluster-helm
+#zeebe-cluster-helm:
+clusterSize: "1"
+partitionCount: "1"
+replicationFactor: "1"
+
+elasticsearch:
+  enabled: true
+  imageTag: "7.16.3"
+  replicas: "1"
+
+  esConfig:
+    # disable security
+    elasticsearch.yml: |
+      xpack.security.enabled: false
+      discovery.type: single-node
+  
+  # Permit co-located instances for solitary minikube virtual machines.
+  antiAffinity: "soft"
+
+  # Shrink default JVM heap.
+  esJavaOpts: "-Xmx128m -Xms128m"
+
+  # Allocate smaller chunks of memory per pod.
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512M"
+    limits:
+      cpu: "1000m"
+      memory: "512M"
+
+  # Request smaller persistent volumes.
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "hostpath"
+    resources:
+      requests:
+        storage: 100M
+

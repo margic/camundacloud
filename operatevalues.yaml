@@ -1,0 +1,9 @@
+global:
+  zeebe: camunda-zeebe
+
+image:
+  repository: camunda/operate
+  tag: 1.3.1
+
+ingress:
+  enabled: false
