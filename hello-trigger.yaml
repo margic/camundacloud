@@ -1,0 +1,31 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: hello-trigger
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: hello
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: hello
+    uri: /hello
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: goodbye-trigger
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: goodbye
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: hello
+    uri: /goodbye

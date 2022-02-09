@@ -1,5 +1,11 @@
-replicas: 3
+replicas: "1"
 
+esConfig:
+  # disable security and set for single node for testing
+  elasticsearch.yml: |
+    xpack.security.enabled: false
+    discovery.type: single-node
+      
 # Permit co-located instances for solitary minikube virtual machines.
 antiAffinity: "soft"
 
